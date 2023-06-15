@@ -1,0 +1,58 @@
+#:kivy 2.1.0
+<MyLayout>
+    GridLayout:
+        cols:1
+        size: root.width, root.height
+        GridLayout:
+            cols:2
+
+            Label:
+                text: "Username"
+            TextInput:
+                id: user
+                multiline:False
+                on_text: root.changeUser()
+
+            Label:
+                text: "Email"
+            TextInput:
+                id:email
+                multiline:False
+                on_text: root.changeEmail()
+
+            Label:
+                text: "Password"
+            TextInput:
+                id:psw
+                multiline:False
+                on_text: root.changePassword()
+
+            Label:
+                text: "Confirm Password"
+            TextInput:
+                id:pswdos
+                multiline:False
+                on_text: root.changeConfirmPassword()
+
+        ProgressBar:
+            id: my_progress_bar
+            #Default value
+            #value: 0.25
+            min: 0
+            max: 1
+            pos_hint: {'x':.1}
+            size_hint_x: .8
+            on_value: root.changeLabel()
+
+        Label:
+            id: label
+            
+            
+        
+        Button:
+            text: "Submit"
+            font_size: 32
+            on_press: root.press()
+
+
+        
