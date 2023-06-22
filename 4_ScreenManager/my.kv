@@ -1,0 +1,80 @@
+#:kivy 2.1
+
+ScreenManager:
+    id: screen_manager
+    
+    FormScreen:
+        id: form_screen
+        name: 'formulario'
+        manager: 'screen_manager'
+
+    HomeScreen:
+        id: home
+        name: 'home'
+        manager: 'screen_manager'
+
+<FormScreen>:
+    GridLayout:
+        cols:1
+        size: root.width, root.height
+        GridLayout:
+            cols: 2
+            
+            Label:
+                text: 'Usuario'
+            TextInput:
+                id: user
+                multiline:False
+                on_focus: root.changeUser()
+
+            Label:
+                text: 'Email'
+            TextInput:
+                id: email
+                multiline:False
+                on_focus: root.changeEmail()
+            
+            Label:
+                text: 'Contraseña'
+            TextInput:
+                id: password
+                multiline:False
+                on_focus: root.changePass()
+                
+            
+            Label:
+                text: 'Confirmar Contraseña'
+            TextInput:
+                id: confirm_password
+                multiline:False
+                on_focus: root.changeConfirm()
+
+        ProgressBar:
+            id: my_progress_bar
+                #Default value
+                #value: 0.25
+            min: 0
+            max: 1
+            pos_hint: {'x':.1}
+            size_hint_x: .8
+            on_value: root.changeLabel()
+
+        Label:
+            id: label
+
+
+        Button:
+            text: "Submit"
+            font_size: 32
+            on_release: root.changeScreen()
+
+<HomeScreen>:
+
+    GridLayout:
+        cols: 1
+        
+        Label:
+            text: 'Home'
+
+
+                
