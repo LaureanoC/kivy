@@ -1,0 +1,244 @@
+#:kivy 2.1
+
+ScreenManager:
+    id: screen_manager
+    
+    HomeScreen:
+        id: home
+        name: 'home'
+        manager: 'screen_manager'
+
+    CreateScreen:
+        id: create
+        name: 'create'
+        manager: 'screen_manager'
+
+
+    UpdateScreen:
+        id: update
+        name: 'update'
+        manager: 'screen_manager'
+    
+    DeleteScreen:
+        id: delete
+        name: 'delete'
+        manager: 'screen_manager'
+
+
+<HomeScreen>:
+    GridLayout:
+        cols: 1
+        Label:
+            text:'Bienvenido'
+            
+        Button:
+            text:'Create'
+            on_release: app.root.current = 'create'
+       
+        Button:
+            text:'Update'
+            on_release: app.root.current = 'update'
+
+        Button:
+            text:'Delete'
+            on_release: app.root.current = 'delete'
+
+<CreateScreen>:
+    GridLayout:
+        cols:1
+        size: root.width, root.height
+        GridLayout:
+            cols: 2
+            
+            Label:
+                text: 'Usuario'
+            TextInput:
+                id: user
+                multiline:False
+                on_text:
+                    if len(self.text)!=0 and root.estadoUser == False:\
+                    progress.value +=.25; root.estadoUser = True
+                    elif len(self.text) == 0:\
+                    progress.value -=.25 ; root.estadoUser = False
+
+            Label:
+                text: 'Email'
+            TextInput:
+                id: email
+                multiline:False
+                on_text:
+                    if len(self.text) !=0 and root.estadoEmail == False:\
+                    progress.value +=.25; root.estadoEmail = True
+                    elif len(self.text) == 0:\
+                    progress.value -=.25 ; root.estadoEmail = False
+            
+            Label:
+                text: 'Contraseña'
+            TextInput:
+                id: password
+                multiline:False
+                on_text:
+                    if len(self.text) !=0 and root.estadoPass == False:\
+                    progress.value +=.25; root.estadoPass = True
+                    elif len(self.text) == 0:\
+                    progress.value -=.25 ; root.estadoPass = False
+                
+            
+            Label:
+                text: 'Confirmar Contraseña'
+            TextInput:
+                id: confirm_password
+                multiline:False
+                on_focus:
+                    if root.estadoConfirm == False and password.text == self.text:\
+                    progress.value +=.25; root.estadoConfirm = True
+                    elif root.estadoConfirm == True and password.text != self.text:\
+                    progress.value -=.25 ; root.estadoConfirm = False
+
+        ProgressBar:
+            id: progress
+                #Default value
+                #value: 0.25
+            min: 0
+            max: 1
+            pos_hint: {'x':.1}
+            size_hint_x: .8
+
+        Label:
+            id: label
+
+
+        Button:
+            text: "Submit"
+            font_size: 32
+            on_release:
+                if root.valido():\
+                root.changeScreen() ; password.text = "" ; user.text=""; email.text=""; confirm_password.text=""; progress.value = 0; app.root.current = 'home'
+            
+        Button:
+            text:'Volver'
+            on_release: app.root.current = 'home'
+
+<UpdateScreen>:
+    GridLayout:
+        cols:1
+        size: root.width, root.height
+        Label:
+            id: per_label
+            text:"Hello"
+        GridLayout:
+            cols: 2
+        
+            Label:
+                text:'ID'
+            TextInput:
+                id: user_id
+                multiline:False
+                on_focus:
+                    if len(self.text)!=0 and root.estadoId == False and root.validarId():\
+                    progress.value +=.20 ; root.estadoId = True
+                    elif len(self.text) == 0:\
+                    progress.value -=.20 ; root.estadoId = False
+            
+            Label:
+                text: 'Usuario'
+            TextInput:
+                id: user
+                multiline:False
+                on_text:
+                    if len(self.text)!=0 and root.estadoUser == False:\
+                    progress.value +=.20; root.estadoUser = True
+                    elif len(self.text) == 0:\
+                    progress.value -=.20 ; root.estadoUser = False
+
+            Label:
+                text: 'Email'
+            TextInput:
+                id: email
+                multiline:False
+                on_text:
+                    if len(self.text) !=0 and root.estadoEmail == False:\
+                    progress.value +=.20; root.estadoEmail = True
+                    elif len(self.text) == 0:\
+                    progress.value -=.20 ; root.estadoEmail = False
+            
+            Label:
+                text: 'Contraseña'
+            TextInput:
+                id: password
+                multiline:False
+                on_text:
+                    if len(self.text) !=0 and root.estadoPass == False:\
+                    progress.value +=.20; root.estadoPass = True
+                    elif len(self.text) == 0:\
+                    progress.value -=.20 ; root.estadoPass = False
+                
+            
+            Label:
+                text: 'Confirmar Contraseña'
+            TextInput:
+                id: confirm
+                multiline:False
+                on_focus:
+                    if root.estadoConfirm == False and password.text == self.text:\
+                    progress.value +=.20; root.estadoConfirm = True
+                    elif root.estadoConfirm == True and password.text != self.text:\
+                    progress.value -=.20 ; root.estadoConfirm = False
+
+        ProgressBar:
+            id: progress
+                #Default value
+                #value: 0.25
+            min: 0
+            max: 1
+            pos_hint: {'x':.1}
+            size_hint_x: .8
+            
+            
+            
+        
+        Button:
+            text:'Mostrar Personas'
+            on_release: root.mostrarListado()
+
+        Button:
+            text:'Modificar'
+            on_release:
+                if root.valido():\ 
+                root.updatePersona() ;  password.text = "" ; user.text=""; email.text=""; confirm.text=""; user_id.text=""; progress.value = 0; app.root.current = 'home'
+        Button:
+            text:'Volver'
+            on_release: app.root.current = 'home'
+
+
+        
+
+<DeleteScreen>:
+    GridLayout:
+        cols:1
+        size: root.width, root.height
+        Label:
+            id: per_label
+            text:"Hello delete"
+        GridLayout:
+            cols: 2
+        
+            Label:
+                text:'ID'
+            TextInput:
+                id: user_id
+                multiline:False
+        Button:
+            text:'Mostrar Personas'
+            on_release: root.mostrarListado()
+        Button:
+            text:'Delete'
+            on_release: root.eliminarPersona() ; user_id.text=""; app.root.current = 'home'
+        
+        Button:
+        
+            text:'Volver'
+            on_release: app.root.current = 'home'
+
+
+
