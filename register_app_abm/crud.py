@@ -93,6 +93,7 @@ class UpdateScreen(Screen):
 class DeleteScreen(Screen):
    
     def mostrarListado(self):
+
         personas = register.listado()
         word=""
         for p in personas:
